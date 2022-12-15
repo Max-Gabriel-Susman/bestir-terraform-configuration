@@ -1,4 +1,9 @@
-config/terraform.tfstate
-config/terraform.tfstate.backup
-config/.terraform/
-config/.terraform.tfstate.lock.info
+complex-config/terraform.tfstate
+complex-config/terraform.tfstate.backup
+complex-config/.terraform/
+complex-config/.terraform.tfstate.lock.info
+
+simple-config/terraform.tfstate
+simple-config/terraform.tfstate.backup
+simple-config/.terraform/
+simple-config/.terraform.tfstate.lock.info
