@@ -1,0 +1,2 @@
+# Bestir Terraform Configuration 
+This repo contains the terraform, kubernetes, and waypoint configurations used to provision and manage an instance of the Bestir network. Notable resources in this configuration include an eks cluster with autoscaler and all the network resources needed to support them both.
