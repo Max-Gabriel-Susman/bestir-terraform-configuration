@@ -1,0 +1,28 @@
+version: "3"
+services: 
+  bestir-identity-service: 
+    image: bestir-identity-service
+    ports: 
+      - "8080:8080"
+    environment:
+      DD_DISABLE: "true"
+      API_ADDRESS: "0.0.0.0:8080"
+      IDENTITY_DB_USER: "usr" 
+      IDENTITY_DB_PASSWORD: "identity" 
+      IDENTITY_DB_HOST: "127.0.0.1" 
+      IDENTITY_DB_NAME: "identity" 
+      IDENTITY_DB_PORT: "3306" 
+      ENABLE_MIGRATE: "true" 
+  bestir-application-service: 
+    image: bestir-application-service
+    ports: 
+      - "8081:8081" 
+    environment:
+      DD_DISABLE: "true"
+      API_ADDRESS: "0.0.0.0:8081"
+      APPLICATION_DB_USER: "usr" 
+      APPLICATION_DB_PASSWORD: "application" 
+      APPLICATION_DB_HOST: "127.0.0.1" 
+      APPLICATION_DB_NAME: "application" 
+      APPLICATION_DB_PORT: "3306" 
+      ENABLE_MIGRATE: "true" 

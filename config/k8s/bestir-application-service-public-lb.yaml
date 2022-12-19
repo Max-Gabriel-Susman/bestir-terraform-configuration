@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bestir-application-service-public-lb
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: nlb
+spec:
+  type: LoadBalancer
+  selector:
+    app: bestir-application-service
+  ports:
+    - protocol: TCP
+      port: 8081
+      targetPort: web

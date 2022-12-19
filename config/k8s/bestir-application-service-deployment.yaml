@@ -1,0 +1,59 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bestir-application-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bestir-application-service
+  template:
+    metadata:
+      labels:
+        app: bestir-application-service
+    spec:
+      containers:
+      - name: bestir-application-service
+        image: 222267256875.dkr.ecr.us-east-1.amazonaws.com/bestir-application-service:latest
+        env:
+        - name: DD_DISABLE
+          value: "true"
+        - name: API_ADDRESS
+          value: "0.0.0.0:8081"
+        - name: APPLICATION_DB_USER
+          value: "usr" 
+        - name: APPLICATION_DB_PASSWORD
+          value: "application" 
+        - name: APPLICATION_DB_HOST
+          value: "127.0.0.1" 
+        - name: APPLICATION_DB_NAME
+          value: "application" 
+        - name: APPLICATION_DB_PORT
+          value: "3306" 
+        - name: ENABLE_MIGRATE
+          value: "true" 
+        ports:
+        - name: web
+          containerPort: 8081
+        resources:
+          requests:
+            memory: 256Mi
+            cpu: 250m
+          limits:
+            memory: 256Mi
+            cpu: 250m
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: role
+                operator: In
+                values:
+                - general
+      # tolerations:
+      # - key: team
+      #   operator: Equal
+      #   value: devops
+      #   effect: NoSchedule

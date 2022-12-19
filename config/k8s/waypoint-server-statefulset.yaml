@@ -1,0 +1,127 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  annotations:
+    meta.helm.sh/release-name: waypoint
+    meta.helm.sh/release-namespace: default
+  creationTimestamp: "2022-12-15T20:04:51Z"
+  generation: 1
+  labels:
+    app.kubernetes.io/instance: waypoint
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: waypoint
+  name: waypoint-server
+  namespace: default
+  resourceVersion: "41151"
+  uid: 49bd1c8a-fbe1-4e28-b6e1-2c927e543d7f
+spec:
+  podManagementPolicy: OrderedReady
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: waypoint
+      app.kubernetes.io/name: waypoint
+      component: server
+  serviceName: waypoint-server
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/instance: waypoint
+        app.kubernetes.io/name: waypoint
+        component: server
+        helm.sh/chart: waypoint-0.1.17
+    spec:
+      containers:
+      - args:
+        - server
+        - run
+        - -accept-tos
+        - -db=/data/data.db
+        - -listen-grpc=0.0.0.0:9701
+        - -listen-http=0.0.0.0:9702
+        - -listen-http-insecure=0.0.0.0:9703
+        - -vv
+        command:
+        - waypoint
+        env:
+        - name: HOME
+          value: /home/waypoint
+        image: docker.io/hashicorp/waypoint:latest
+        imagePullPolicy: Always
+        livenessProbe:
+          failureThreshold: 2
+          initialDelaySeconds: 5
+          periodSeconds: 3
+          successThreshold: 1
+          tcpSocket:
+            port: grpc
+          timeoutSeconds: 5
+        name: waypoint
+        ports:
+        - containerPort: 9701
+          name: grpc
+          protocol: TCP
+        - containerPort: 9702
+          name: https
+          protocol: TCP
+        - containerPort: 9703
+          name: http
+          protocol: TCP
+        resources:
+          limits:
+            cpu: "0"
+            memory: "0"
+          requests:
+            cpu: "0"
+            memory: "0"
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /data
+          name: data-default
+        - mountPath: /home/waypoint
+          name: home
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 100
+      serviceAccount: waypoint
+      serviceAccountName: waypoint
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - emptyDir: {}
+        name: home
+  updateStrategy:
+    rollingUpdate:
+      partition: 0
+    type: RollingUpdate
+  volumeClaimTemplates:
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      creationTimestamp: null
+      name: data-default
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi
+      volumeMode: Filesystem
+    status:
+      phase: Pending
+status:
+  availableReplicas: 0
+  collisionCount: 0
+  currentReplicas: 1
+  currentRevision: waypoint-server-77949c779
+  observedGeneration: 1
+  replicas: 1
+  updateRevision: waypoint-server-77949c779
+  updatedReplicas: 1

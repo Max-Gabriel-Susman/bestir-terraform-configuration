@@ -1,0 +1,28 @@
+kapiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    volume.beta.kubernetes.io/storage-provisioner: ebs.csi.aws.com
+    volume.kubernetes.io/selected-node: ip-10-0-48-69.ec2.internal
+    volume.kubernetes.io/storage-provisioner: ebs.csi.aws.com
+  creationTimestamp: "2022-12-15T18:36:20Z"
+  finalizers:
+  - kubernetes.io/pvc-protection
+  labels:
+    app.kubernetes.io/instance: waypoint
+    app.kubernetes.io/name: waypoint
+    component: server
+  name: data-default-waypoint-server-0
+  namespace: default
+  resourceVersion: "24462"
+  uid: 85522c09-79fb-454b-b59a-32c053e65e3c
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: gp2
+  volumeMode: Filesystem
+status:
+  phase: Pending
